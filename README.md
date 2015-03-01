@@ -1,24 +1,13 @@
 Heroku buildpack: Vendor Binaries
 =================================
+This is a fork of [peterkeen's buildpack](https://github.com/peterkeen/heroku-buildpack-vendorbinaries) with a few changes.
 
-This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) for vendoring binaries into your project. It doesn't do anything else, so to actually compile your app you should use [heroku-buildpack-multi](https://github.com/ddollar/heroku-buildpack-multi) to combine it with a real buildpack.
+This fork interprets each line in `.vendor_urls` as a URL pointing to a tarball and an extraction directory separated by a space.
 
-Usage
------
+So a valid `.vendor_url` may look like this
 
-    $ ls
-    .vendor_urls
-    .buildpacks
+```
+https://s3.amazonaws.com/my-bucket/foo.tar.gz .heroku/vendor/bin
+```
 
-    $ heroku create --stack cedar --buildpack http://github.com/dollar/heroku-buildpack-multi.git
-
-    $ git push heroku master
-    ...
-    -----> Heroku receiving push
-    -----> Fetching custom buildpack
-    -----> Found a .vendor_urls file
-           Vendoring https://s3.amazonaws.com/my-bucket/foo.tar.gz
-    ...
-
-The buildpack will detect that your app has a `.vendor_urls` file in the root. Each line in this file will be treated as a URL pointing at a tarball to fetch and extract into your application's root directory.
-
+It will also add `/app/.heroku/vendor/bin` to your `$PATH`.

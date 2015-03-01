@@ -15,9 +15,13 @@ fi
 
 cd $1
 
-while read url; do
+while read url dir; do
   if [ -n "$url" ]; then # incase ensure_newline_at_eof_on_save is enabled
-    echo Vendoring $url | indent
-    curl -L --silent $url | tar xz
+    echo Vendoring $url to $dir | indent
+    mkdir -p $dir
+    curl -L --silent $url | tar xz --strip-components=1 --directory=$dir
   fi
 done < .vendor_urls
+
+mkdir -p .profile.d
+echo "export PATH=\$PATH:$HOME/.heroku/vendor/bin" > .profile.d/vendorbin.sh
