@@ -24,4 +24,4 @@ while read url dir; do
 done < .vendor_urls
 
 mkdir -p .profile.d
-echo "export PATH=\$PATH:$HOME/.heroku/vendor/bin" > .profile.d/vendorbin.sh
+echo "export PATH=\$PATH:$HOME/vendor/bin" > .profile.d/vendorbin.sh
